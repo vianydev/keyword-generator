@@ -1,10 +1,11 @@
 import React from "react";
 
-const SearchKeyword = ({ inputChange, handleSubmit }) => {
+const SearchKeyword = ({ inputChange, handleSubmit, name }) => {
     return (
         <div>
             <div>
                 <h1 className="f1 tc">Keyword Generator</h1>
+                <h2 className="f3 tc">Hello { name }</h2>
                 <p className="tc">Add the photo's URL to get suggestions for your keywords. Click on the keyword and see their stats in Google trends</p>
             </div>
             <div className="pa4-l">
