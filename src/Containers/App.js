@@ -45,7 +45,7 @@ class App extends Component {
     this.setState({imageUrl: this.state.input});
     this.setState({keywords: []});
     let words;
-    fetch('http://localhost:3000/imageUrl', {
+    fetch('https://keyword-generator-2022.herokuapp.com/imageUrl', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
