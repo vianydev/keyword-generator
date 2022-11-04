@@ -23,7 +23,7 @@ class Register extends Component {
     }
     
     handleSubmitRegister = () => {
-        fetch('https://keyword-generator-2022.herokuapp.com/register', {
+        fetch('https://keyword-generator-api-production.up.railway.app/register', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
