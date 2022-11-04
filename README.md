@@ -3,6 +3,7 @@
 This is a projects to help photographers to find keywords for their pictures.
 
 ![Design preview for the project](./design/desktop-preview.png)
+![Design preview for the project](./design/image1.png)
 
 ## Table of contents
 
