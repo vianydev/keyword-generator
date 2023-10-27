@@ -1,7 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 body {
-  margin: 0;
   font-family: 'avenir next', avenir, sans-serif;
-  color: white;
-  background-image: radial-gradient(circle, #076774, #195f6f, #235768, #2a4f61, #2f4858);
 }
 

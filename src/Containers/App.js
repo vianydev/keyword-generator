@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import Nav from '../Components/Nav/Nav';
-import Logo from '../Components/Logo/Logo';
 import SearchKeyword from '../Components/SearchKeyword/SearchKeyword';
 import KeywordsBar from '../Components/KeywordsBar/KeywordsBar';
-import SignIn from '../Components/SignIn/SignIn';
-import Register from '../Components/Register/Register';
 
 class App extends Component {
   constructor(){
@@ -13,24 +9,8 @@ class App extends Component {
       input: '',
       imageUrl: '',
       keywords: [],
-      route: 'signin',
-      isSignIn: false,
-      user: {
-        id: '',
-        name: '',
-        email: '',
-        joined: ''
-      }
+      // keywords: [ "perro", "gato", "esto", "es", "hard", "code" ],
     }
-  }
-
-  loadUser = (data) => {
-    this.setState({user: {
-      id: data.id,
-      name: data.name,
-      email: data.email,
-      joined: data.joined
-    }})
   }
   
   inputChange = (e) =>{
@@ -43,81 +23,73 @@ class App extends Component {
       return;
     }
     this.setState({imageUrl: this.state.input});
-    this.setState({keywords: []});
+    // this.setState({keywords: []});
     let words;
-    fetch('https://keyword-generator-api-production.up.railway.app/imageUrl', {
+
+    const PAT = process.env.REACT_APP_PAT;
+    const USER_ID = process.env.REACT_APP_USER_ID;
+    const APP_ID = process.env.REACT_APP_APP_ID;
+    const MODEL_ID = 'general-image-recognition';
+    const MODEL_VERSION_ID = 'aa7f35c01e0642fda5cf400f543e7c40';
+    // const IMAGE_URL = 'https://samples.clarifai.com/metro-north.jpg';
+    const IMAGE_URL = this.state.input;
+
+    const raw = JSON.stringify({
+      "user_app_id": {
+        "user_id": USER_ID,
+        "app_id": APP_ID
+      },
+      "inputs": [
+        {
+          "data": {
+            "image": {
+              "url": IMAGE_URL
+            }
+          }
+        }
+      ]
+    });
+
+    const requestOptions = {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-          input: this.state.input
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Key ' + PAT
+      },
+      body: raw
+    };
+
+    fetch("https://api.clarifai.com/v2/models/" + MODEL_ID + "/versions/" + MODEL_VERSION_ID + "/outputs", requestOptions)
+      .then(response => response.json())
+      .then(response => {
+        words = response.outputs[0].data.concepts;
+        this.setState({
+          keywords: this.state.keywords.concat(words)
+        })
       })
-    })
-    .then(response => response.json())
-    .then(response => {
-      words = response.outputs[0].data.concepts;
-      this.setState({
-        keywords: this.state.keywords.concat(words)
-      })
-    })
-    .catch(err => console.log(err));
+      .catch(error => console.log('error', error));
   }
 
-  handleRouteChange = (route) => {
-    if (route === 'signin'){
-      this.setState({
-        input: '',
-        imageUrl: '',
-        keywords: [],
-        route: 'signin',
-        isSignIn: false,
-        user: {
-          id: '',
-          name: '',
-          email: '',
-          joined: ''
-        }
-      });
-    } else if (route === 'home'){
-      this.setState({isSignIn: true});
-    }
-    this.setState({route: route})
-  }
+  
 
   render() { 
-    const { keywords, imageUrl, route, user } = this.state;
+    const {
+      keywords,
+      imageUrl
+    } = this.state;
     return (
-      <div>
-        <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>  
-          <Logo />
-          <Nav 
-            handleRouteChange={this.handleRouteChange} 
-            route={route}
+      <main className='text-base w-full bg-slate-800'>
+        <section className='flex flex-col justify-center content-center min-h-screen'>  
+          <SearchKeyword 
+            inputChange={this.inputChange} 
+            handleSubmit={this.handleSubmit}
           />
-        </div>
-       { 
-        route === "signin" 
-        ? <SignIn 
-            handleRouteChange={this.handleRouteChange}
-            loadUser={this.loadUser} 
+          <KeywordsBar 
+            keywords={keywords} 
+            url={imageUrl} 
           />
-        : route === "register"
-        ? <Register 
-            handleRouteChange={this.handleRouteChange}
-            loadUser={this.loadUser} 
-          />
-        : <div>
-            <SearchKeyword 
-              inputChange={this.inputChange} 
-              handleSubmit={this.handleSubmit}
-              name={user.name}
-            />
-            <KeywordsBar 
-              keywords={keywords} 
-              url={imageUrl} 
-            />
-          </div>
-        }
-      </div>
+        </section>
+      </main>
     );
   }
 }
