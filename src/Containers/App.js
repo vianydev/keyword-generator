@@ -9,7 +9,6 @@ class App extends Component {
       input: '',
       imageUrl: '',
       keywords: [],
-      // keywords: [ "perro", "gato", "esto", "es", "hard", "code" ],
     }
   }
   
@@ -23,7 +22,6 @@ class App extends Component {
       return;
     }
     this.setState({imageUrl: this.state.input});
-    // this.setState({keywords: []});
     let words;
 
     const PAT = process.env.REACT_APP_PAT;
@@ -67,7 +65,7 @@ class App extends Component {
           keywords: this.state.keywords.concat(words)
         })
       })
-      .catch(error => console.log('error', error));
+      .catch(error => console.log('error'));
   }
 
   
