@@ -1,0 +1,36 @@
+
+const app = new Clarifai.App({
+  apiKey: '094371494c56468d8e84701b443ae668'
+ });
+
+ const raw = JSON.stringify({
+  "user_app_id": {
+    "user_id": "ues81miolf69",
+    "app_id": "0b165f63e8fe49d99467c3739ab432f2"
+  },
+  "inputs": [
+    {
+      "data": {
+        "image": {
+          "url": "https://samples.clarifai.com/metro-north.jpg"
+        }
+      }
+    }
+  ]
+});
+
+const requestOptions = {
+  method: 'POST',
+  headers: {
+    'Accept': 'application/json',
+    'Authorization': 'Key 6a218d8b5e104803b455e58d362ccd91'
+  },
+  body: raw
+};
+
+let testing;
+
+fetch("https://api.clarifai.com/v2/models/aaa03c23b3724a16a56b629203edc62c/outputs", requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(JSON.parse(result).outputs[0].data))
+  .catch(error => console.log('error', error));
