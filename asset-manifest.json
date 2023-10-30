@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/keyword-generator/static/css/main.975c4018.css",
-    "main.js": "/keyword-generator/static/js/main.2c6c98c9.js",
+    "main.js": "/keyword-generator/static/js/main.11ee5843.js",
     "index.html": "/keyword-generator/index.html",
     "main.975c4018.css.map": "/keyword-generator/static/css/main.975c4018.css.map",
-    "main.2c6c98c9.js.map": "/keyword-generator/static/js/main.2c6c98c9.js.map"
+    "main.11ee5843.js.map": "/keyword-generator/static/js/main.11ee5843.js.map"
   },
   "entrypoints": [
     "static/css/main.975c4018.css",
-    "static/js/main.2c6c98c9.js"
+    "static/js/main.11ee5843.js"
   ]
 }
