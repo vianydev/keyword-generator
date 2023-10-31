@@ -6,7 +6,24 @@ const SearchKeyword = ({ inputChange, handleSubmit }) => {
             <div className="w-8/12 m-auto mb-8">
                 <h1 className="text-5xl text-center font-extrabold">Keyword Generator</h1>
 
-                <p className="text-base text-center">Add the photo's URL to get suggestions for your keywords. Click on the keyword and see their stats in Google trends</p>
+                <ul className="list-disc my-6">
+                    <li className="my-2 list-item">
+                        Find an image that you want to analyze for keyword suggestions.
+                        
+                    </li>
+                    <li className="my-2 list-item">
+                        Right-click on the image, select "Copy Image Address" (or a similar option depending on your browser). This will copy the full URL of the image.
+                    </li>
+                    <li className="my-2 list-item">
+                        Paste the copied image URL into input field. Verify that the URL includes the file format (.jpg, .png).
+                    </li>
+                    <li className="my-2 list-item">
+                        Once the analysis is complete, the app will likely display a list of suggested keywords based on the content of the provided photo.
+                    </li>
+                    <li className="my-2 list-item">
+                        Click on a specific keyword from the list to access additional information related to that keyword.
+                    </li>
+                </ul>
 
             </div>
             <div className="px-4">
@@ -20,9 +37,12 @@ const SearchKeyword = ({ inputChange, handleSubmit }) => {
                             onChange={inputChange} 
                             />
                         <button 
-                            className="btn btn-accent" 
-                            onClick={handleSubmit} > 
-                        Get keywords</button>
+                            className="btn btn-accent"
+                            type="submit"
+                            onClick={handleSubmit}
+                        > 
+                            Get keywords
+                        </button>
                     </div>
                 </div>
             </div>

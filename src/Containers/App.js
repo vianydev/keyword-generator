@@ -21,9 +21,12 @@ class App extends Component {
     if (this.state.input.length === 0) {
       return;
     }
-    this.setState({imageUrl: this.state.input});
-    let words;
-
+    this.setState({ imageUrl: this.state.input });
+    
+    this.setState({
+      keywords: []
+    })
+    
     const PAT = process.env.REACT_APP_PAT;
     const USER_ID = process.env.REACT_APP_USER_ID;
     const APP_ID = process.env.REACT_APP_APP_ID;
@@ -59,13 +62,23 @@ class App extends Component {
 
     fetch("https://api.clarifai.com/v2/models/" + MODEL_ID + "/versions/" + MODEL_VERSION_ID + "/outputs", requestOptions)
       .then(response => response.json())
-      .then(response => {
-        words = response.outputs[0].data.concepts;
-        this.setState({
-          keywords: this.state.keywords.concat(words)
-        })
+      .then(result => {
+        let validURL = result.outputs[ 0 ].status.code  
+        let words = result.outputs[ 0 ].data.concepts;
+        
+        if (validURL !== 30101) {  
+           this.setState({
+            keywords: this.state.keywords.concat(words)
+           })
+        } else {
+          this.setState({
+            keywords: ['error']
+          }) 
+        }
       })
-      .catch(error => console.log('error'));
+      .catch(error => console.log('something went wrong', error));
+    
+    this.setState({ input: "" });
   }
 
   
